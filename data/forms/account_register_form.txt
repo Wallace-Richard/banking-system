@@ -1,0 +1,2 @@
+What is the account type (CHECKING/SAVINGS/SALARY)?
+What is the initial deposit amount?
