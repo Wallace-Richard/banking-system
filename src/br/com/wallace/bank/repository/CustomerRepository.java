@@ -6,8 +6,6 @@ import java.io.*;
 
 public class CustomerRepository
 {
-    private static int counter = 1;
-
     public static void saveCustomer(Customer customer)
     {
         String fileName = customer.getCpf().replaceAll("[.-]", "") + ".txt";
