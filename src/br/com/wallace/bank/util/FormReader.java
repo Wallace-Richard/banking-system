@@ -10,27 +10,38 @@ public class FormReader
     private static final File fileAccount = new File("data/forms/account_register_form.txt");
     private static final List<String> questions = new ArrayList<>();
 
-    public static List<String> readQuestionsCustomer() throws IOException
+    private FormReader()
     {
-        BufferedReader reader = new BufferedReader(new FileReader(fileCustomer));
-        String line;
+        throw new UnsupportedOperationException("Utility class - cannot be instantiated");
+    }
 
-        while ((line = reader.readLine()) != null){
+    public static List<String> readQuestionsCustomer()
+    {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileCustomer))) {
+            String line;
+
+            while ((line = reader.readLine()) != null) {
                 questions.add(line);
+            }
         }
-        reader.close();
+        catch (IOException e) {
+            throw new RuntimeException("Error: Form could not be read!" + e.getMessage(), e);
+        }
         return questions;
     }
 
-    public static List<String> readQuestionsAccount() throws IOException
+    public static List<String> readQuestionsAccount()
     {
-        BufferedReader reader = new BufferedReader(new FileReader(fileAccount));
-        String line;
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileAccount))) {
+            String line;
 
-        while ((line = reader.readLine()) != null){
-            questions.add(line);
+            while ((line = reader.readLine()) != null) {
+                questions.add(line);
+            }
         }
-        reader.close();
+        catch (IOException e) {
+            throw new RuntimeException("Error: Form could not be read!" + e.getMessage(), e);
+        }
         return questions;
     }
 }
