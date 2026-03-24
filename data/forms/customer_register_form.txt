@@ -1,0 +1,9 @@
+What is the customer's full name?
+What is the customer's CPF?
+What is the birth date (DD/MM/YYYY)?
+What is the customer's email?
+What is the contact phone number?
+What is the state?
+What is the city?
+What is the ZIP code?
+What is the declared monthly income?

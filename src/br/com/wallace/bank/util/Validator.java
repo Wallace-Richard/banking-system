@@ -1,5 +1,8 @@
 package br.com.wallace.bank.util;
 
+import br.com.wallace.bank.repository.CustomerRepository;
+import br.com.wallace.bank.service.CustomerService;
+
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.regex.Matcher;
@@ -10,6 +13,32 @@ public class Validator
     private Validator()
     {
         throw new UnsupportedOperationException("Utility class - cannot be instantiated");
+    }
+
+    private static boolean isValidDigitsCpf(String cpfNumbers)
+    {
+        //First digit
+        int soma = 0;
+        for (int i = 0; i < 9; i++) {
+            soma += (cpfNumbers.charAt(i) - '0') * (10 - i);
+        }
+        int resto = soma % 11;
+        int digito1 = (resto < 2) ? 0 : 11 - resto;
+
+        //Second digit
+        soma = 0;
+        for (int i = 0; i < 10; i++) {
+            soma += (cpfNumbers.charAt(i) - '0') * (11 - i);
+        }
+        resto = soma % 11;
+        int digito2 = (resto < 2) ? 0 : 11 - resto;
+
+        //Verification
+        if (digito1 == (cpfNumbers.charAt(9) - '0') && digito2 == (cpfNumbers.charAt(10) - '0')) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static String name(String name)
@@ -33,13 +62,28 @@ public class Validator
         Pattern pattern = Pattern.compile(regexCpf);
         Matcher matcher = pattern.matcher(cpf);
 
-        if (matcher.matches()) {
-            return cpf;
-        }
-        else {
-            System.out.println("Error: Invalid cpf, use the format (XXX.XXX.XXX-XX)\n");
+        if (!matcher.matches()) {
+            System.out.println("Error: Invalid CPF. Use the format XXX.XXX.XXX-XX\n");
             return null;
         }
+
+        String cpfNumbers = cpf.replaceAll("[^0-9]", "");
+
+        if (cpfNumbers.matches("(\\d)\\1{10}")) {
+            System.out.println("Error: Invalid CPF.\n");
+            return null;
+        }
+
+        if (!isValidDigitsCpf(cpfNumbers)) {
+            System.out.println("Error: Invalid CPF.\n");
+            return null;
+        }
+
+        if (CustomerRepository.existsCpf(cpfNumbers)){
+            System.out.println("Error: Cpf number provided already exists.\n");
+            return null;
+        }
+        return cpf;
     }
 
     public static LocalDate birthDate(LocalDate birthDate)
@@ -132,4 +176,6 @@ public class Validator
             return null;
         }
     }
+
+
 }
