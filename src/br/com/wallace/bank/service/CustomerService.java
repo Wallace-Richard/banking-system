@@ -7,7 +7,6 @@ import br.com.wallace.bank.util.FormReader;
 import br.com.wallace.bank.util.InputReader;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class CustomerService
@@ -23,7 +22,7 @@ public class CustomerService
         String state = InputReader.state(questions.get(5));
         String city = InputReader.city(questions.get(6));
         String zipCode = InputReader.zipCode(questions.get(7));
-        double monthlyIncome = InputReader.rDouble(questions.get(8));
+        double monthlyIncome = InputReader.monthlyIncome(questions.get(8));
 
         Address address = new Address(state, city, zipCode);
         Customer customer = new Customer(name, cpf, birthDate, email, phoneNumber, address, monthlyIncome);

@@ -1,44 +1,17 @@
 package br.com.wallace.bank.util;
 
 import br.com.wallace.bank.repository.CustomerRepository;
-import br.com.wallace.bank.service.CustomerService;
 
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Validator
+public class CustomerValidator
 {
-    private Validator()
+    private CustomerValidator()
     {
         throw new UnsupportedOperationException("Utility class - cannot be instantiated");
-    }
-
-    private static boolean isValidDigitsCpf(String cpfNumbers)
-    {
-        //First digit
-        int soma = 0;
-        for (int i = 0; i < 9; i++) {
-            soma += (cpfNumbers.charAt(i) - '0') * (10 - i);
-        }
-        int resto = soma % 11;
-        int digito1 = (resto < 2) ? 0 : 11 - resto;
-
-        //Second digit
-        soma = 0;
-        for (int i = 0; i < 10; i++) {
-            soma += (cpfNumbers.charAt(i) - '0') * (11 - i);
-        }
-        resto = soma % 11;
-        int digito2 = (resto < 2) ? 0 : 11 - resto;
-
-        //Verification
-        if (digito1 == (cpfNumbers.charAt(9) - '0') && digito2 == (cpfNumbers.charAt(10) - '0')) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public static String name(String name)
@@ -79,7 +52,7 @@ public class Validator
             return null;
         }
 
-        if (CustomerRepository.existsCpf(cpfNumbers)){
+        if (CustomerRepository.existsCpf(cpfNumbers)) {
             System.out.println("Error: Cpf number provided already exists.\n");
             return null;
         }
@@ -162,6 +135,7 @@ public class Validator
             return null;
         }
     }
+
     public static String zipCode(String zipCode)
     {
         String regexzipCode = "[0-9]{5}-[0-9]{3}";
@@ -177,5 +151,45 @@ public class Validator
         }
     }
 
+    public static double monthlyIncome(String string)
+    {
+        try {
+            double value = Double.parseDouble(string);
+            if (value > 0) {
+                return value;
+            }
+            else if (value == 0) {
+                System.out.println("Error: The number cannot be 0, Try again!\n");
+            }
+            else {
+                System.out.println("Error: Negative number, Try again!\n");
+            }
+        }
+        catch (NumberFormatException e) {
+            System.out.println("Error: Invalid number, Try again!\n");
+        }
+        return 0;
+    }
 
+    private static boolean isValidDigitsCpf(String cpfNumbers)
+    {
+        //First digit
+        int soma = 0;
+        for (int i = 0; i < 9; i++) {
+            soma += (cpfNumbers.charAt(i) - '0') * (10 - i);
+        }
+        int resto = soma % 11;
+        int digito1 = (resto < 2) ? 0 : 11 - resto;
+
+        //Second digit
+        soma = 0;
+        for (int i = 0; i < 10; i++) {
+            soma += (cpfNumbers.charAt(i) - '0') * (11 - i);
+        }
+        resto = soma % 11;
+        int digito2 = (resto < 2) ? 0 : 11 - resto;
+
+        //Verification
+        return digito1 == (cpfNumbers.charAt(9) - '0') && digito2 == (cpfNumbers.charAt(10) - '0');
+    }
 }

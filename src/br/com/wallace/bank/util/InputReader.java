@@ -1,5 +1,8 @@
 package br.com.wallace.bank.util;
 
+import br.com.wallace.bank.enums.AccountType;
+import br.com.wallace.bank.model.Account;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -22,7 +25,7 @@ public class InputReader
             System.out.print("-> ");
             String name = input.nextLine();
 
-            if(Validator.name(name) != null){
+            if (CustomerValidator.name(name) != null) {
                 return name;
             }
         }
@@ -35,7 +38,7 @@ public class InputReader
             System.out.print("-> ");
             String cpf = input.nextLine();
 
-            if(Validator.cpf(cpf) != null){
+            if (CustomerValidator.cpf(cpf) != null) {
                 return cpf;
             }
         }
@@ -50,11 +53,11 @@ public class InputReader
 
             try {
                 LocalDate birthDate = LocalDate.parse(birthDateStr, formatter);
-                if (Validator.birthDate(birthDate) != null){
+                if (CustomerValidator.birthDate(birthDate) != null) {
                     return birthDate;
                 }
             }
-            catch (DateTimeParseException e){
+            catch (DateTimeParseException e) {
                 System.out.println("Error: Invalid date format! Use DD/MM/YYYY\n");
             }
         }
@@ -67,7 +70,7 @@ public class InputReader
             System.out.print("-> ");
             String email = input.nextLine();
 
-            if(Validator.email(email) != null){
+            if (CustomerValidator.email(email) != null) {
                 return email;
             }
         }
@@ -80,7 +83,7 @@ public class InputReader
             System.out.print("-> +");
             String phoneNumber = input.nextLine();
 
-            if(Validator.phoneNumber(phoneNumber) != null){
+            if (CustomerValidator.phoneNumber(phoneNumber) != null) {
                 return phoneNumber;
             }
         }
@@ -93,7 +96,7 @@ public class InputReader
             System.out.print("-> ");
             String state = input.nextLine();
 
-            if(Validator.state(state) != null){
+            if (CustomerValidator.state(state) != null) {
                 return state;
             }
         }
@@ -106,7 +109,7 @@ public class InputReader
             System.out.print("-> ");
             String city = input.nextLine();
 
-            if(Validator.city(city) != null){
+            if (CustomerValidator.city(city) != null) {
                 return city;
             }
         }
@@ -119,31 +122,48 @@ public class InputReader
             System.out.print("-> ");
             String zipCode = input.nextLine();
 
-            if(Validator.zipCode(zipCode) != null){
+            if (CustomerValidator.zipCode(zipCode) != null) {
                 return zipCode;
             }
         }
     }
 
-    public static double rDouble(String msg)
+    public static double monthlyIncome(String msg)
     {
         while (true) {
             System.out.println(msg);
             System.out.print("-> ");
-            try {
-                String string = input.nextLine().trim().replace(",", ".");
-                double value = Double.parseDouble(string);
-                if (value > 0){
-                    return value;
-                }
-                else if (value == 0){
-                    System.out.println("Error: The number cannot be 0, Try again!\n");
-                }
-                else {
-                    System.out.println("Error: Negative number, Try again!\n");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Error: Invalid number, Try again!\n");
+            String value = input.nextLine().trim().replace(",", ".");
+
+            double monthlyIncome = CustomerValidator.monthlyIncome(value);
+            if (monthlyIncome != 0) {
+                return monthlyIncome;
+            }
+        }
+    }
+
+    public static AccountType accountType(String msg)
+    {
+        while (true) {
+            System.out.println(msg);
+            System.out.print("-> ");
+            AccountType accountType = AccountType.serchByName(input.nextLine());
+            if (accountType != null) {
+                return accountType;
+            }
+        }
+    }
+
+    public static double initialDeposit(String msg, AccountType type)
+    {
+        while (true) {
+            System.out.println(msg);
+            System.out.print("-> ");
+            String string = input.nextLine();
+
+            Double initialDeposit = AccountValidator.initialDeposit(type, string);
+            if (initialDeposit != null) {
+                return initialDeposit;
             }
         }
     }
