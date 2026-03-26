@@ -1,2 +1,3 @@
+What is the customer's CPF?
 What is the account type (CHECKING/SAVINGS/SALARY)?
 What is the initial deposit amount?

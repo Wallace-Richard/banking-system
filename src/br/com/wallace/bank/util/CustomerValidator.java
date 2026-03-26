@@ -47,13 +47,13 @@ public class CustomerValidator
             return null;
         }
 
-        if (!isValidDigitsCpf(cpfNumbers)) {
+        if (!hasValidDigitsCpf(cpfNumbers)) {
             System.out.println("Error: Invalid CPF.\n");
             return null;
         }
 
-        if (CustomerRepository.existsCpf(cpfNumbers)) {
-            System.out.println("Error: Cpf number provided already exists.\n");
+        if (CustomerRepository.existsByCpf(cpfNumbers)) {
+            System.out.println("Error: Cpf provided already exists.\n");
             return null;
         }
         return cpf;
@@ -171,7 +171,7 @@ public class CustomerValidator
         return 0;
     }
 
-    private static boolean isValidDigitsCpf(String cpfNumbers)
+    protected static boolean hasValidDigitsCpf(String cpfNumbers)
     {
         //First digit
         int soma = 0;

@@ -1,7 +1,6 @@
 package br.com.wallace.bank.util;
 
 import br.com.wallace.bank.enums.AccountType;
-import br.com.wallace.bank.model.Account;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -31,7 +30,7 @@ public class InputReader
         }
     }
 
-    public static String cpf(String msg)
+    public static String CustomerCpf(String msg)
     {
         while (true) {
             System.out.println(msg);
@@ -138,6 +137,19 @@ public class InputReader
             double monthlyIncome = CustomerValidator.monthlyIncome(value);
             if (monthlyIncome != 0) {
                 return monthlyIncome;
+            }
+        }
+    }
+
+    public static String accountCpf(String msg)
+    {
+        while (true) {
+            System.out.println(msg);
+            System.out.print("-> ");
+            String cpf = input.nextLine();
+
+            if (AccountValidator.cpf(cpf) != null) {
+                return cpf;
             }
         }
     }
