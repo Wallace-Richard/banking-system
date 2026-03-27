@@ -17,24 +17,16 @@ public class AccountValidator
 
     public static String cpf(String cpf)
     {
-        String regexCpf = "[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}";
-        Pattern pattern = Pattern.compile(regexCpf);
-        Matcher matcher = pattern.matcher(cpf);
-
-        if (!matcher.matches()) {
-            System.out.println("Error: Invalid CPF. Use the format XXX.XXX.XXX-XX\n");
-            return null;
-        }
-
         String cpfNumbers = cpf.replaceAll("[^0-9]", "");
+        boolean isInvalidFormat = !cpf.matches("[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}");
+        boolean isRepeated = cpfNumbers.matches("(\\d)\\1{10}");
 
-        if (cpfNumbers.matches("(\\d)\\1{10}")) {
-            System.out.println("Error: Invalid CPF.\n");
-            return null;
-        }
-
-        if (!hasValidDigitsCpf(cpfNumbers)) {
-            System.out.println("Error: Invalid CPF.\n");
+        if (isInvalidFormat || isRepeated || !hasValidDigitsCpf(cpfNumbers)) {
+            if (isInvalidFormat){
+                System.out.println("Error: Invalid cpf, use the format (XXX.XXX.XXX-XX)\n");
+                return null;
+            }
+            System.out.println("Error: Invalid cpf, try again.\n");
             return null;
         }
 

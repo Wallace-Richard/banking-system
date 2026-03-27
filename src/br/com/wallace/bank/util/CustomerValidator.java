@@ -17,8 +17,8 @@ public class CustomerValidator
     public static String name(String name)
     {
         String regexName = "[a-zA-Z]{3,}\\s[a-zA-Z]{3,}";
-        Pattern pattern = Pattern.compile(regexName);
-        Matcher matcher = pattern.matcher(name);
+        Pattern pattern  = Pattern.compile(regexName);
+        Matcher matcher  = pattern.matcher(name);
 
         if (matcher.find()) {
             return name;
@@ -31,29 +31,21 @@ public class CustomerValidator
 
     public static String cpf(String cpf)
     {
-        String regexCpf = "[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}";
-        Pattern pattern = Pattern.compile(regexCpf);
-        Matcher matcher = pattern.matcher(cpf);
+        String cpfNumbers       = cpf.replaceAll("[^0-9]", "");
+        boolean isInvalidFormat = !cpf.matches("[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}");
+        boolean isRepeated      = cpfNumbers.matches("(\\d)\\1{10}");
 
-        if (!matcher.matches()) {
-            System.out.println("Error: Invalid CPF. Use the format XXX.XXX.XXX-XX\n");
-            return null;
-        }
-
-        String cpfNumbers = cpf.replaceAll("[^0-9]", "");
-
-        if (cpfNumbers.matches("(\\d)\\1{10}")) {
-            System.out.println("Error: Invalid CPF.\n");
-            return null;
-        }
-
-        if (!hasValidDigitsCpf(cpfNumbers)) {
-            System.out.println("Error: Invalid CPF.\n");
+        if (isInvalidFormat || isRepeated || !hasValidDigitsCpf(cpfNumbers)) {
+            if (isInvalidFormat){
+                System.out.println("Error: Invalid cpf, use the format (XXX.XXX.XXX-XX)\n");
+                return null;
+            }
+            System.out.println("Error: Invalid cpf, try again.\n");
             return null;
         }
 
         if (CustomerRepository.existsByCpf(cpfNumbers)) {
-            System.out.println("Error: Cpf provided already exists.\n");
+            System.out.println("Error: Cpf already exist, try again.\n");
             return null;
         }
         return cpf;
@@ -62,6 +54,7 @@ public class CustomerValidator
     public static LocalDate birthDate(LocalDate birthDate)
     {
         int age = Period.between(birthDate, LocalDate.now()).getYears();
+
         if (birthDate.isAfter(LocalDate.now())) {
             System.out.println("Error: Birth date cannot be in the future!\n");
             return null;
@@ -78,11 +71,9 @@ public class CustomerValidator
     public static String email(String email)
     {
         email = email.trim();
-        String regexPhoneNumber = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-        Pattern pattern = Pattern.compile(regexPhoneNumber);
-        Matcher matcher = pattern.matcher(email);
+        String regexEmail = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 
-        if (matcher.matches()) {
+        if (email.matches(regexEmail)) {
             return email;
         }
         else {
@@ -93,11 +84,7 @@ public class CustomerValidator
 
     public static String phoneNumber(String phoneNumber)
     {
-        String regexPhoneNumber = "[1-9][1-9]\\s9[1-9]{8}";
-        Pattern pattern = Pattern.compile(regexPhoneNumber);
-        Matcher matcher = pattern.matcher(phoneNumber);
-
-        if (matcher.matches()) {
+        if (phoneNumber.matches("[1-9][1-9]\\s9[1-9]{8}")) {
             return phoneNumber;
         }
         else {
@@ -109,10 +96,8 @@ public class CustomerValidator
     public static String state(String state)
     {
         String regexState = "^(AC|AL|AP|AM|BA|CE|DF|ES|GO|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SC|SP|SE|TO)$";
-        Pattern pattern = Pattern.compile(regexState);
-        Matcher matcher = pattern.matcher(state);
 
-        if (matcher.matches()) {
+        if (state.matches(regexState)) {
             return state;
         }
         else {
@@ -123,11 +108,7 @@ public class CustomerValidator
 
     public static String city(String city)
     {
-        String regexCity = "[A-Za-zÀ-ÿ\\s'-]{3,}$";
-        Pattern pattern = Pattern.compile(regexCity);
-        Matcher matcher = pattern.matcher(city);
-
-        if (matcher.matches()) {
+        if (city.matches("[A-Za-zÀ-ÿ\\s'-]{3,}$")) {
             return city;
         }
         else {
@@ -138,11 +119,7 @@ public class CustomerValidator
 
     public static String zipCode(String zipCode)
     {
-        String regexzipCode = "[0-9]{5}-[0-9]{3}";
-        Pattern pattern = Pattern.compile(regexzipCode);
-        Matcher matcher = pattern.matcher(zipCode);
-
-        if (matcher.matches()) {
+        if (zipCode.matches("[0-9]{5}-[0-9]{3}")) {
             return zipCode;
         }
         else {
@@ -178,7 +155,7 @@ public class CustomerValidator
         for (int i = 0; i < 9; i++) {
             soma += (cpfNumbers.charAt(i) - '0') * (10 - i);
         }
-        int resto = soma % 11;
+        int resto   = soma % 11;
         int digito1 = (resto < 2) ? 0 : 11 - resto;
 
         //Second digit
@@ -186,10 +163,12 @@ public class CustomerValidator
         for (int i = 0; i < 10; i++) {
             soma += (cpfNumbers.charAt(i) - '0') * (11 - i);
         }
-        resto = soma % 11;
+
+        resto       = soma % 11;
         int digito2 = (resto < 2) ? 0 : 11 - resto;
 
         //Verification
-        return digito1 == (cpfNumbers.charAt(9) - '0') && digito2 == (cpfNumbers.charAt(10) - '0');
+        boolean isValid = digito1 == (cpfNumbers.charAt(9) - '0') && digito2 == (cpfNumbers.charAt(10) - '0');
+        return isValid;
     }
 }
