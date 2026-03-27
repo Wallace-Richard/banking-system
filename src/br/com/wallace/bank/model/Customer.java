@@ -17,12 +17,12 @@ public class Customer
 
     public Customer(String name, String cpf, LocalDate birthData, String email, String phoneNumber, Address adress, double monthlyIncome)
     {
-        this.name = name;
-        this.cpf = cpf;
-        this.birthData = birthData;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.adress = adress;
+        this.name          = name;
+        this.cpf           = cpf;
+        this.birthData     = birthData;
+        this.email         = email;
+        this.phoneNumber   = phoneNumber;
+        this.adress        = adress;
         this.monthlyIncome = monthlyIncome;
     }
 

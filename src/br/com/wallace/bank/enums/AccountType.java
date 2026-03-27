@@ -3,8 +3,8 @@ package br.com.wallace.bank.enums;
 public enum AccountType
 {
     CHECKING(50, 2.50, "Checking"),
-    SAVINGS(10, 0, "Savings"),
-    SALARY(0, 0, "Salary");
+    SAVINGS (10, 0, "Savings"),
+    SALARY  (0, 0, "Salary");
 
     private final double initialDeposit;
     private final double taxTransfer;

@@ -11,8 +11,8 @@ public class Account
 
     public Account(Customer customer, AccountType accountType, double initialDeposit)
     {
-        this.customer = customer;
-        this.accountType = accountType;
+        this.customer       = customer;
+        this.accountType    = accountType;
         this.initialDeposit = initialDeposit;
     }
 

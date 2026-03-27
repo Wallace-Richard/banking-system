@@ -8,8 +8,8 @@ public class Address
 
     public Address(String state, String city, String zipCode)
     {
-        this.state = state;
-        this.city = city;
+        this.state   = state;
+        this.city    = city;
         this.zipCode = zipCode;
     }
 

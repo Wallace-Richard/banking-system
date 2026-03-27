@@ -13,21 +13,20 @@ import java.util.List;
 
 public class AccountService
 {
+    private static final List<String> questions =  FormReader.readAccountQuestions();
+
     public static void createAccount()
     {
-        List<String> questions =  FormReader.readAccountQuestions();
-
         String cpf =              InputReader.accountCpf(questions.get(0));
         AccountType accountType = InputReader.accountType(questions.get(1));
         double initialDeposit =   InputReader.initialDeposit(questions.get(2), accountType);
 
         Customer customer = CustomerRepository.findByCPF(cpf);
+        Account account = new Account(customer, accountType, initialDeposit);
 
         List<AccountType> listAccountType = new ArrayList<>();
         listAccountType.add(accountType);
         customer.setAccountType(listAccountType);
-
-        Account account = new Account(customer, accountType, initialDeposit);
 
         AccountRepository.saveAccount(account, customer);
     }

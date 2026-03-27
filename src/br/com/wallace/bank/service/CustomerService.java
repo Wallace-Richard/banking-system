@@ -24,7 +24,7 @@ public class CustomerService
         String zipCode =         InputReader.zipCode(questions.get(7));
         double monthlyIncome =   InputReader.monthlyIncome(questions.get(8));
 
-        Address address = new Address(state, city, zipCode);
+        Address address   = new Address(state, city, zipCode);
         Customer customer = new Customer(name, cpf, birthDate, email, phoneNumber, address, monthlyIncome);
 
         CustomerRepository.saveCustomer(customer);

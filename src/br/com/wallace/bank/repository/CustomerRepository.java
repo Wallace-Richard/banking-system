@@ -7,11 +7,14 @@ import br.com.wallace.bank.model.Customer;
 
 import java.io.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerRepository
 {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
     private CustomerRepository()
     {
         throw new UnsupportedOperationException("Repository class - cannot be instantiated\n");
@@ -25,7 +28,7 @@ public class CustomerRepository
 
             writer.write("Name: "           + customer.getName() + "\n");
             writer.write("CPF: "            + customer.getCpf() + "\n");
-            writer.write("Birthdate: "      + customer.getBirthData() + "\n");
+            writer.write("Birthdate: "      + customer.getBirthData().format(formatter) + "\n");
             writer.write("Email: "          + customer.getEmail() + "\n");
             writer.write("Phone number: "   + customer.getPhoneNumber() + "\n");
             writer.write("State: "          + customer.getAdress().getState() + "\n");
@@ -40,14 +43,13 @@ public class CustomerRepository
 
     public static boolean existsByCpf(String cpf)
     {
-        File folder = new File("data/customers");
+        File folder  = new File("data/customers");
         File[] files = folder.listFiles();
 
         if (files == null) return false;
 
         for (File file : files) {
-            String fileName = file.getName();
-            if (fileName.contains(cpf)) {
+            if (file.getName().contains(cpf)) {
                 return true;
             }
         }
@@ -56,14 +58,14 @@ public class CustomerRepository
 
     public static Customer findByCPF(String cpfStr)
     {
-        String name = null;
-        String cpf = cpfStr;
-        LocalDate birthDate = null;
-        String email = null;
-        String phoneNumber = null;
-        String state = null;
-        String city = null;
-        String zipCode = null;
+        String name          = null;
+        String cpf           = cpfStr;
+        LocalDate birthDate  = null;
+        String email         = null;
+        String phoneNumber   = null;
+        String state         = null;
+        String city          = null;
+        String zipCode       = null;
         double monthlyIncome = 0;
         List<AccountType> accountTypes = new ArrayList<>();
 
@@ -84,7 +86,7 @@ public class CustomerRepository
                         name = value;
                         break;
                     case "Birthdate":
-                        birthDate = LocalDate.parse(value);
+                        birthDate = LocalDate.parse(value, formatter);
                         break;
                     case "Email":
                         email = value;
