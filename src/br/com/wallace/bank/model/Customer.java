@@ -2,6 +2,7 @@ package br.com.wallace.bank.model;
 
 import br.com.wallace.bank.enums.AccountType;
 import java.time.LocalDate;
+import java.util.List;
 
 public class Customer
 {
@@ -12,7 +13,7 @@ public class Customer
     private String            phoneNumber;
     private Address           adress;
     private double            monthlyIncome;
-    private AccountType       accountType;
+    private List<AccountType> accountType;
 
     public Customer(String name, String cpf, LocalDate birthData, String email, String phoneNumber, Address adress, double monthlyIncome)
     {
@@ -62,7 +63,7 @@ public class Customer
 
     public AccountType getAccountType()
     {
-        return accountType;
+        return accountType.iterator().next();
     }
 
     public void setPhoneNumber(String phoneNumber)
@@ -83,5 +84,10 @@ public class Customer
     public void setMonthlyIncome(double monthlyIncome)
     {
         this.monthlyIncome = monthlyIncome;
+    }
+
+    public void setAccountType(List<AccountType> accountType)
+    {
+        this.accountType = accountType;
     }
 }
