@@ -6,16 +6,16 @@ import java.util.List;
 
 public class FormReader
 {
-    private static final File fileCustomer = new File("data/forms/customer_register_form.txt");
-    private static final File fileAccount = new File("data/forms/account_register_form.txt");
     private static final List<String> questions = new ArrayList<>();
+    private static final File fileCustomer =      new File("data/forms/customer_register_form.txt");
+    private static final File fileAccount =       new File("data/forms/account_register_form.txt");
 
     private FormReader()
     {
         throw new UnsupportedOperationException("Utility class - cannot be instantiated");
     }
 
-    public static List<String> readQuestionsCustomer()
+    public static List<String> readCustomerQuestions()
     {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileCustomer))) {
             String line;
@@ -30,7 +30,7 @@ public class FormReader
         return questions;
     }
 
-    public static List<String> readQuestionsAccount()
+    public static List<String> readAccountQuestions()
     {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileAccount))) {
             String line;

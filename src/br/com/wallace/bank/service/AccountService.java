@@ -8,21 +8,27 @@ import br.com.wallace.bank.repository.CustomerRepository;
 import br.com.wallace.bank.util.FormReader;
 import br.com.wallace.bank.util.InputReader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AccountService
 {
     public static void createAccount()
     {
-        List<String> questions = FormReader.readQuestionsAccount();
-        String cpf = InputReader.accountCpf(questions.get(0));
+        List<String> questions =  FormReader.readAccountQuestions();
+
+        String cpf =              InputReader.accountCpf(questions.get(0));
         AccountType accountType = InputReader.accountType(questions.get(1));
-        double initialDeposit = InputReader.initialDeposit(questions.get(2), accountType);
+        double initialDeposit =   InputReader.initialDeposit(questions.get(2), accountType);
 
         Customer customer = CustomerRepository.findByCPF(cpf);
 
+        List<AccountType> listAccountType = new ArrayList<>();
+        listAccountType.add(accountType);
+        customer.setAccountType(listAccountType);
+
         Account account = new Account(customer, accountType, initialDeposit);
 
-        AccountRepository.saveAccount(account);
+        AccountRepository.saveAccount(account, customer);
     }
 }

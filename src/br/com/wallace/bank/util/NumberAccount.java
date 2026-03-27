@@ -17,7 +17,7 @@ public class NumberAccount
 
         int checkDigit = (soma + 4) % 10;
 
-        return numberAccount + "-" + checkDigit + ".txt";
+        return numberAccount + "-" + checkDigit;
     }
 
     private static String addAccountNumber()
