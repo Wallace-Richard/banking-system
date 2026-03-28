@@ -17,7 +17,7 @@ public enum AccountType
         this.name = name;
     }
 
-    public static AccountType serchByName(String nome){
+    public static AccountType searchByName(String nome){
         for (AccountType type : values())
         {
             if (type.getName().equalsIgnoreCase(nome)) {
@@ -46,6 +46,6 @@ public enum AccountType
     @Override
     public String toString()
     {
-        return name + ", amount needed to deposit: $" + initialDeposit + ", Tax for transfer: $" + taxTransfer;
+        return name;
     }
 }

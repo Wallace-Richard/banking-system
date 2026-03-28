@@ -109,7 +109,7 @@ public class CustomerRepository
                         String[] partsNumber = value.split(", ", 2);
                         String textType =  partsNumber[1];
                         String[] partsType = textType.split(": ", 2);
-                        AccountType accountType = AccountType.serchByName(partsType[1]);
+                        AccountType accountType = AccountType.valueOf(partsType[1]);
                         accountTypes.add(accountType);
                         break;
                 }

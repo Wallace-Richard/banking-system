@@ -1,8 +1,8 @@
 package br.com.wallace.bank.repository;
 
+import br.com.wallace.bank.enums.AccountType;
 import br.com.wallace.bank.model.Account;
 import br.com.wallace.bank.model.Customer;
-import br.com.wallace.bank.util.NumberAccount;
 
 import java.io.*;
 import java.time.LocalDateTime;
@@ -19,7 +19,7 @@ public class AccountRepository
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write("Account number: "    + account.getNumberAccount() + "\n");
             writer.write("Customer's CPF: "    + account.getCustomer().getCpf() + "\n");
-            writer.write("Account type: "      + account.getAccountType().getName() + "\n");
+            writer.write("Account type: "      + account.getAccountType().getName().toUpperCase() + "\n");
             writer.write("Balance: "           + account.getBalance() + "\n");
             writer.write("Date when created: " + account.getDateCreated().format(formatter) + "\n");
             writer.write("Active: "            + account.isActive());
@@ -37,7 +37,7 @@ public class AccountRepository
 
         try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(file, true)))) {
             if (customer.getAccountType() != null) {
-                writer.println("Account number: " + account.getNumberAccount() + ", Type: " + customer.getAccountType().getName());
+                writer.println("Account number: " + account.getNumberAccount() + ", Type: " + customer.getAccountType().getName().toUpperCase());
             }
         }
         catch (IOException e) {
@@ -45,8 +45,42 @@ public class AccountRepository
         }
     }
 
-    public static Account loadAccount(String numberAccount)
+    public static Account loadAccount(String numberAccount, String cpf)
     {
-        return null;
+        Customer customer         = CustomerRepository.loadCustomer(cpf);
+        AccountType accountType   = null;
+        double balance            = 0;
+        LocalDateTime dateCreated = null;
+        boolean isActive          = true;
+
+        File file = new File("data/accounts/active/" + numberAccount + ".txt");
+        String line;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            while ((line = reader.readLine()) != null) {
+                if (!line.contains(":")) continue;
+
+                String[] parts = line.split(": ", 2);
+                String text = parts[0];
+                String value = parts[1];
+
+                switch (text){
+                    case "Account type":
+                        accountType = AccountType.valueOf(value);
+                        break;
+                    case "Balance":
+                        balance = Double.parseDouble(value.trim());
+                        break;
+                    case "Date when created":
+                        dateCreated = LocalDateTime.parse(value, formatter);
+                        break;
+                }
+            }
+
+        }
+        catch (IOException e) {
+            throw new RuntimeException("Error: customer data could not be loaded." + e.getMessage(), e);
+        }
+        return new Account(numberAccount, customer, accountType, balance, dateCreated, isActive);
     }
 }

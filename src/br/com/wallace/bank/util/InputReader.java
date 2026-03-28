@@ -159,7 +159,7 @@ public class InputReader
         while (true) {
             System.out.println(msg);
             System.out.print("-> ");
-            AccountType accountType = AccountType.serchByName(input.nextLine());
+            AccountType accountType = AccountType.searchByName(input.nextLine());
             if (accountType != null) {
                 return accountType;
             }

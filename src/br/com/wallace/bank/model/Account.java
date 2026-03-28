@@ -53,4 +53,10 @@ public class Account
     {
         return Active;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Account{" + "numberAccount='" + numberAccount + '\'' + ", customer=" + customer + ", accountType=" + accountType + ", balance=" + balance + ", dateCreated=" + dateCreated + ", Active=" + Active + '}';
+    }
 }
