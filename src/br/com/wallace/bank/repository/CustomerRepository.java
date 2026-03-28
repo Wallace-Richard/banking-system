@@ -1,7 +1,6 @@
 package br.com.wallace.bank.repository;
 
 import br.com.wallace.bank.enums.AccountType;
-import br.com.wallace.bank.model.Account;
 import br.com.wallace.bank.model.Address;
 import br.com.wallace.bank.model.Customer;
 
@@ -56,7 +55,7 @@ public class CustomerRepository
         return false;
     }
 
-    public static Customer findByCPF(String cpfStr)
+    public static Customer loadCustomer(String cpfStr)
     {
         String name          = null;
         String cpf           = cpfStr;

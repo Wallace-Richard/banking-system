@@ -1,19 +1,27 @@
 package br.com.wallace.bank.model;
 
 import br.com.wallace.bank.enums.AccountType;
+import br.com.wallace.bank.util.NumberAccount;
+
+import java.time.LocalDateTime;
 
 public class Account
 {
+    private String            numberAccount;
     private Customer          customer;
     private final AccountType accountType;
-    private double            initialDeposit;
+    private double            balance;
+    private LocalDateTime     dateCreated;
+    private boolean           Active;
 
-
-    public Account(Customer customer, AccountType accountType, double initialDeposit)
+    public Account(String numberAccount, Customer customer, AccountType accountType, double balance, LocalDateTime dateCreated, boolean active)
     {
-        this.customer       = customer;
-        this.accountType    = accountType;
-        this.initialDeposit = initialDeposit;
+        this.numberAccount = numberAccount;
+        this.customer = customer;
+        this.accountType = accountType;
+        this.balance = balance;
+        this.dateCreated = dateCreated;
+        this.Active = active;
     }
 
     public Customer getCustomer()
@@ -26,8 +34,23 @@ public class Account
         return accountType;
     }
 
-    public double getInitialDeposit()
+    public double getBalance()
     {
-        return initialDeposit;
+        return balance;
+    }
+
+    public String getNumberAccount()
+    {
+        return numberAccount;
+    }
+
+    public LocalDateTime getDateCreated()
+    {
+        return dateCreated;
+    }
+
+    public boolean isActive()
+    {
+        return Active;
     }
 }
