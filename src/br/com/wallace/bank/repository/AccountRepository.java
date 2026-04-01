@@ -35,6 +35,8 @@ public class AccountRepository
         String fileName = customer.getCpf().replaceAll("[.-]", "") + ".txt";
         File file = new File("data/customers/" + fileName);
 
+        if (existAccountNumber(file, account)) return;
+
         try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(file, true)))) {
             if (customer.getAccountType() != null) {
                 writer.println("Account number: " + account.getNumberAccount() + ", Type: " + customer.getAccountType().getName().toUpperCase());
@@ -45,9 +47,9 @@ public class AccountRepository
         }
     }
 
-    public static Account loadAccount(String numberAccount, String cpf)
+    public static Account loadAccount(String numberAccount)
     {
-        Customer customer         = CustomerRepository.loadCustomer(cpf);
+        Customer customer         = null;
         AccountType accountType   = null;
         double balance            = 0;
         LocalDateTime dateCreated = null;
@@ -68,6 +70,9 @@ public class AccountRepository
                     case "Account type":
                         accountType = AccountType.valueOf(value);
                         break;
+                    case "Customer's CPF":
+                        customer = CustomerRepository.loadCustomer(value);
+                        break;
                     case "Balance":
                         balance = Double.parseDouble(value.trim());
                         break;
@@ -82,5 +87,46 @@ public class AccountRepository
             throw new RuntimeException("Error: customer data could not be loaded." + e.getMessage(), e);
         }
         return new Account(numberAccount, customer, accountType, balance, dateCreated, isActive);
+    }
+
+    public static String existsByAccount(String numberAccount)
+    {
+        File folder = new File("data/accounts/active");
+        File[] files = folder.listFiles();
+
+        if (files == null) return null;
+
+        for (File file : files) {
+            if (file.getName().contains(numberAccount)){
+                return numberAccount;
+            }
+        }
+        return null;
+    }
+
+    public static boolean existAccountNumber(File file, Account account)
+    {
+        String line;
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            while ((line = reader.readLine()) != null) {
+                if (!line.contains(":")) continue;
+
+                String[] parts = line.split(": ", 2);
+                String text = parts[0];
+                String value = parts[1];
+
+                if (text.equals("Account number")) {
+                    String[] partsNumber = value.split(", ", 2);
+                    String textType = partsNumber[0];
+                    if (textType.equals(account.getNumberAccount().trim())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        catch (IOException e) {
+            throw new RuntimeException("Error: customer data could not be loaded." + e.getMessage(), e);
+        }
+        return false;
     }
 }

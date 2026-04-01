@@ -1,6 +1,7 @@
 package br.com.wallace.bank.util;
 
 import br.com.wallace.bank.enums.AccountType;
+import br.com.wallace.bank.repository.AccountRepository;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -177,6 +178,23 @@ public class InputReader
             if (initialDeposit != null) {
                 return initialDeposit;
             }
+        }
+    }
+
+    public static String numberAccount()
+    {
+        while (true) {
+            System.out.println("Account number:");
+            System.out.print("-> ");
+            String number = input.nextLine();
+
+            if (!number.matches("[0-9]{5}-[0-9]")){
+                System.out.println("Error: Account number is invalid, use the format (XXXXX-X)\n");
+            }
+            else if (AccountRepository.existsByAccount(number) == null){
+                System.out.println("Error: Account number does not exist, try again!\n");
+            }
+            return number;
         }
     }
 }
