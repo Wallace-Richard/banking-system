@@ -194,7 +194,23 @@ public class InputReader
             else if (AccountRepository.existsByAccount(number) == null){
                 System.out.println("Error: Account number does not exist, try again!\n");
             }
-            return number;
+            else {
+                return number;
+            }
+        }
+    }
+
+    public static double deposit()
+    {
+        while (true) {
+            System.out.println("What is the amount to be deposited?");
+            System.out.print("-> ");
+            String amount = input.nextLine();
+
+            Double balance = AccountValidator.balance(amount);
+            if (balance != null) {
+                return balance;
+            }
         }
     }
 }

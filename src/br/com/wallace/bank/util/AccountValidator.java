@@ -50,4 +50,26 @@ public class AccountValidator
         }
         return null;
     }
+
+    public static Double balance(String amount)
+    {
+        try {
+            double value = Double.parseDouble(amount);
+            if (value <= 0) {
+                System.out.println("Error: The deposit cannot be zero or negative.\n");
+                return null;
+            }
+            else if (value > 10_000) {
+                System.out.println("Error: The maximum deposit amount is 10_000.\n");
+                return null;
+            }
+            else {
+                return value;
+            }
+        }
+        catch (NumberFormatException e){
+            System.out.println("Error: Invalid number, Try again!\n");
+        }
+        return null;
+    }
 }

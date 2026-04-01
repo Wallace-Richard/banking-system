@@ -10,7 +10,6 @@ import br.com.wallace.bank.util.InputReader;
 import br.com.wallace.bank.util.NumberAccount;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +33,16 @@ public class AccountService
         listAccountType.add(accountType);
         customer.setAccountType(listAccountType);
 
-        AccountRepository.saveAccount(account, customer);
+        AccountRepository.saveAccount(account);
+        AccountRepository.saveAccountToCustomerFile(account, customer);
+    }
+
+    public static void deposit (Account account)
+    {
+        double addBalance = InputReader.deposit();
+        double newBalance = account.getBalance() + addBalance;
+        account.setBalance(newBalance);
+
+        AccountRepository.saveAccount(account);
     }
 }

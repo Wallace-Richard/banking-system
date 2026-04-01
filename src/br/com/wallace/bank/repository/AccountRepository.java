@@ -12,7 +12,7 @@ public class AccountRepository
 {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
-    public static void saveAccount(Account account, Customer customer)
+    public static void saveAccount(Account account)
     {
         File file = new File("data/accounts/active/" + account.getNumberAccount() + ".txt");
 
@@ -23,14 +23,13 @@ public class AccountRepository
             writer.write("Balance: "           + account.getBalance() + "\n");
             writer.write("Date when created: " + account.getDateCreated().format(formatter) + "\n");
             writer.write("Active: "            + account.isActive());
-            saveAccountToCustomerFile(customer, account);
         }
         catch (IOException e) {
             throw new RuntimeException("Error: account data could not be save." + e.getMessage(), e);
         }
     }
 
-    public static void saveAccountToCustomerFile(Customer customer, Account account)
+    public static void saveAccountToCustomerFile(Account account, Customer customer)
     {
         String fileName = customer.getCpf().replaceAll("[.-]", "") + ".txt";
         File file = new File("data/customers/" + fileName);

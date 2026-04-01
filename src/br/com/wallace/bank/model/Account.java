@@ -54,6 +54,11 @@ public class Account
         return Active;
     }
 
+    public void setBalance(double balance)
+    {
+        this.balance = balance;
+    }
+
     @Override
     public String toString()
     {
