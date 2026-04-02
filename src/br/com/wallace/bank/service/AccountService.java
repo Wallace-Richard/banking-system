@@ -36,13 +36,4 @@ public class AccountService
         AccountRepository.saveAccount(account);
         AccountRepository.saveAccountToCustomerFile(account, customer);
     }
-
-    public static void deposit (Account account)
-    {
-        double addBalance = InputReader.deposit();
-        double newBalance = account.getBalance() + addBalance;
-        account.setBalance(newBalance);
-
-        AccountRepository.saveAccount(account);
-    }
 }

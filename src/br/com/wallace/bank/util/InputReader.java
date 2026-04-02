@@ -205,11 +205,11 @@ public class InputReader
         while (true) {
             System.out.println("What is the amount to be deposited?");
             System.out.print("-> ");
-            String amount = input.nextLine();
+            String deposit = input.nextLine();
 
-            Double balance = AccountValidator.balance(amount);
-            if (balance != null) {
-                return balance;
+            Double amount = TransactionValidator.deposit(deposit);
+            if (amount != null) {
+                return amount;
             }
         }
     }

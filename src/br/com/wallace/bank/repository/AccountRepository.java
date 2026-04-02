@@ -12,6 +12,11 @@ public class AccountRepository
 {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
+    public AccountRepository()
+    {
+        throw new UnsupportedOperationException("Repository class - cannot be instantiated");
+    }
+
     public static void saveAccount(Account account)
     {
         File file = new File("data/accounts/active/" + account.getNumberAccount() + ".txt");
