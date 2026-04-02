@@ -5,6 +5,7 @@ import br.com.wallace.bank.model.Account;
 import br.com.wallace.bank.model.Customer;
 import br.com.wallace.bank.repository.AccountRepository;
 import br.com.wallace.bank.repository.CustomerRepository;
+import br.com.wallace.bank.repository.TransactionRepository;
 import br.com.wallace.bank.util.FormReader;
 import br.com.wallace.bank.util.InputReader;
 import br.com.wallace.bank.util.NumberAccount;
@@ -34,6 +35,7 @@ public class AccountService
         customer.setAccountType(listAccountType);
 
         AccountRepository.saveAccount(account);
+        AccountRepository.createStatement(account);
         AccountRepository.saveAccountToCustomerFile(account, customer);
     }
 }

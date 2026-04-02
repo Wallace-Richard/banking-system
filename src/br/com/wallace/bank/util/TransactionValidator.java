@@ -4,6 +4,11 @@ import br.com.wallace.bank.enums.TransactionType;
 
 public class TransactionValidator
 {
+    private TransactionValidator()
+    {
+        throw new UnsupportedOperationException("Utility class - cannot be instantiated");
+    }
+
     public static Double deposit(String amount)
     {
         try {
@@ -20,7 +25,7 @@ public class TransactionValidator
                 return value;
             }
         }
-        catch (NumberFormatException e){
+        catch (NumberFormatException e) {
             System.out.println("Error: Invalid number, Try again!\n");
         }
         return null;

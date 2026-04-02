@@ -34,6 +34,21 @@ public class AccountRepository
         }
     }
 
+    public static void createStatement(Account account)
+    {
+        File file = new File("data/transactions/statement=" + account.getNumberAccount() + ".txt" );
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
+            writer.write("==================================================================\n");
+            writer.write("BANKING SYSTEM - ACCOUNT STATEMENT: " + account.getNumberAccount() + "\n");
+            writer.write("==================================================================\n\n");
+            writer.write("==================================================================\n");
+        }
+        catch (IOException e){
+            throw new RuntimeException("Error: customer data could not be loaded." + e.getMessage(), e);
+        }
+    }
+
     public static void saveAccountToCustomerFile(Account account, Customer customer)
     {
         String fileName = customer.getCpf().replaceAll("[.-]", "") + ".txt";
