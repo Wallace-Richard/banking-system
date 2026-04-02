@@ -12,7 +12,7 @@ public class AccountRepository
 {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
-    public AccountRepository()
+    private AccountRepository()
     {
         throw new UnsupportedOperationException("Repository class - cannot be instantiated");
     }
@@ -36,7 +36,7 @@ public class AccountRepository
 
     public static void createStatement(Account account)
     {
-        File file = new File("data/transactions/statement=" + account.getNumberAccount() + ".txt" );
+        File file = new File("data/transactions/" + account.getNumberAccount() + "_statement.txt" );
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
             writer.write("==================================================================\n");
