@@ -148,4 +148,29 @@ public class AccountRepository
         }
         return false;
     }
+
+
+    public static String addAccountNumber()
+    {
+        File file = new File("data/forms/number_account.txt");
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+
+            String line = reader.readLine();
+            int numberAccount = Integer.parseInt(line);
+            ++numberAccount;
+            reader.close();
+
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            line = String.format("%05d", numberAccount);
+            writer.write(line);
+            writer.close();
+
+            return line;
+        }
+        catch (IOException e) {
+            throw new RuntimeException("Error: Form could not be read!" + e.getMessage(), e);
+        }
+    }
 }
+
