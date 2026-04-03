@@ -15,14 +15,15 @@ public class TransactionRepository
         throw new UnsupportedOperationException("Repository class - cannot be instantiated");
     }
 
-    public static void registerDeposit(Transaction transaction, Account account)
+    public static void registerTransaction(Transaction transaction, Account account)
     {
-        File file = new File("data/transactions/" + transaction.getNumberAccount() + "_statement.txt");
+        File file = new File("data/transactions/" + account.getNumberAccount() + "_statement.txt");
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))){
 
-            writer.write("[" + transaction.getTimestamp().format(formatter) + "] | " + transaction.getType().name()
-                      + " | +" + transaction.getAmount() + " | " + account.getBalance() + "\n");
+            writer.write("[" + transaction.getTimestamp().format(formatter) + "] | "
+                             + transaction.getType().name() + " | " + transaction.getType().getSignal()
+                             + transaction.getAmount() + " | " + account.getBalance() + "\n");
             writer.write("==================================================================\n");
         }
         catch (IOException e){

@@ -11,18 +11,45 @@ import java.time.LocalDateTime;
 
 public class TransactionService
 {
-    public static void deposit (Account account)
+    public static void deposit(Account account)
     {
-        double amount = InputReader.deposit();
-        double newBalance = account.getBalance() + amount;
+        double deposit = InputReader.deposit();
+        double newBalance = account.getBalance() + deposit;
         account.setBalance(newBalance);
 
         LocalDateTime timestamp = LocalDateTime.now();
         TransactionType type = TransactionType.DEPOSIT;
 
+        Transaction transaction = new Transaction(timestamp, type, deposit, account.getNumberAccount());
+
+        TransactionRepository.registerTransaction(transaction, account);
+        AccountRepository.saveAccount(account);
+    }
+
+    public static void withdrawal(Account account)
+    {
+        double amount;
+        double withdrawal;
+        double newBalance;
+        while (true) {
+            amount = InputReader.withdrawal();
+            withdrawal = amount + account.getAccountType().getTaxWithdrawal();
+            if (account.getBalance() >= withdrawal) {
+                newBalance = account.getBalance() - withdrawal;
+                break;
+            }
+            else {
+                System.out.println("\nError: Withdrawals cannot exceed the account balance, try again!\n");
+            }
+        }
+
+        account.setBalance(newBalance);
+        LocalDateTime timestamp = LocalDateTime.now();
+        TransactionType type = TransactionType.WITHDRAWAL;
+
         Transaction transaction = new Transaction(timestamp, type, amount, account.getNumberAccount());
 
-        TransactionRepository.registerDeposit(transaction, account);
+        TransactionRepository.registerTransaction(transaction, account);
         AccountRepository.saveAccount(account);
     }
 }
