@@ -213,4 +213,19 @@ public class InputReader
             }
         }
     }
+
+    public static double withdrawal()
+    {
+        while (true) {
+            System.out.println("What is the amount to be withdrawn?");
+            System.out.print("-> ");
+            String withdrawal = input.nextLine();
+
+            Double amount = TransactionValidator.withdrawal(withdrawal);
+            if (amount != null) {
+                return amount;
+            }
+        }
+    }
+
 }
