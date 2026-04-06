@@ -43,6 +43,9 @@ public class AccountRepository
             writer.write("BANKING SYSTEM - ACCOUNT STATEMENT: " + account.getNumberAccount() + "\n");
             writer.write("==================================================================\n\n");
             writer.write("==================================================================\n");
+            writer.write("[" + account.getDateCreated().format(formatter) + "]" + " | INITIAL DEPOSIT | "
+                             + "+" + account.getBalance() + " | " + account.getBalance() + "\n");
+            writer.write("==================================================================\n");
         }
         catch (IOException e){
             throw new RuntimeException("Error: customer data could not be loaded." + e.getMessage(), e);
