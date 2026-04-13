@@ -2,16 +2,16 @@ package br.com.wallace.bank.enums;
 
 public enum TransactionType
 {
-    DEPOSIT("Deposit", 0.01, 10_000, '+'),
-    WITHDRAWAL("Withdrawal", 0.01, 1_000, '-'),
-    TRANSFER("Transfer", 0.01, 5_000, '-');
+    DEPOSIT("Deposit", 0.01, 10_000, "+"),
+    WITHDRAWAL("Withdrawal", 0.01, 1_000, "-"),
+    TRANSFER("Transfer", 0.01, 5_000, "-+");
 
     private final String name;
     private final double minimumOperationValue;
     private final double maxOperationValue;
-    private final char signal;
+    private final String signal;
 
-    TransactionType(String name, double minimumOperationValue, double maxOperationValue, char signal)
+    TransactionType(String name, double minimumOperationValue, double maxOperationValue, String signal)
     {
         this.name = name;
         this.minimumOperationValue = minimumOperationValue;
@@ -45,7 +45,7 @@ public enum TransactionType
         return maxOperationValue;
     }
 
-    public char getSignal()
+    public String getSignal()
     {
         return signal;
     }

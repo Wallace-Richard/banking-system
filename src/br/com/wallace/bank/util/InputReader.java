@@ -228,4 +228,17 @@ public class InputReader
         }
     }
 
+    public static double transfer()
+    {
+        while (true) {
+            System.out.println("What is the amount to be transfer?");
+            System.out.print("-> ");
+            String withdrawal = input.nextLine();
+
+            Double amount = TransactionValidator.transfer(withdrawal);
+            if (amount != null) {
+                return amount;
+            }
+        }
+    }
 }

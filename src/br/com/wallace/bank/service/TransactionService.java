@@ -51,4 +51,33 @@ public class TransactionService
         TransactionRepository.registerTransaction(transaction, account);
         AccountRepository.saveAccount(account);
     }
+
+    public static void transfer(Account accountIn, Account accountOut, double amount)
+    {
+        accountOut.setBalance(accountOut.getBalance() - amount);
+
+        accountIn.setBalance(accountIn.getBalance() + amount);
+
+        if (accountOut.getBalance() < amount) {
+            System.out.println("\nError: amount transfer cannot exceed the account balance, try again!\n");
+            return;
+        }
+        else if (accountOut.getNumberAccount().equals(accountIn.getNumberAccount())){
+            System.out.println("\nError: you cannot transfer to identical accounts.");
+            return;
+        }
+
+        LocalDateTime timestamp = LocalDateTime.now();
+        TransactionType type = TransactionType.TRANSFER;
+
+        Transaction transactionOut = new Transaction(timestamp, type, amount, accountOut.getNumberAccount());
+        Transaction transactionIn = new Transaction(timestamp, type, amount, accountIn.getNumberAccount());
+
+        TransactionRepository.registerTransaction(transactionOut, accountOut);
+        TransactionRepository.registerTransaction(transactionIn, accountIn);
+
+        AccountRepository.saveAccount(accountOut);
+        AccountRepository.saveAccount(accountIn);
+
+    }
 }
