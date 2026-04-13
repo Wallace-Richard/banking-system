@@ -25,14 +25,14 @@ public class CustomerRepository
         File file = new File("data/customers/" + fileName);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
 
-            writer.write("Name: "           + customer.getName() + "\n");
-            writer.write("CPF: "            + customer.getCpf() + "\n");
-            writer.write("Birthdate: "      + customer.getBirthData().format(formatter) + "\n");
-            writer.write("Email: "          + customer.getEmail() + "\n");
-            writer.write("Phone number: "   + customer.getPhoneNumber() + "\n");
-            writer.write("State: "          + customer.getAdress().getState() + "\n");
-            writer.write("City: "           + customer.getAdress().getCity() + "\n");
-            writer.write("ZipCode: "        + customer.getAdress().getZipCode() + "\n");
+            writer.write("Name: " + customer.getName() + "\n");
+            writer.write("CPF: " + customer.getCpf() + "\n");
+            writer.write("Birthdate: " + customer.getBirthData().format(formatter) + "\n");
+            writer.write("Email: " + customer.getEmail() + "\n");
+            writer.write("Phone number: " + customer.getPhoneNumber() + "\n");
+            writer.write("State: " + customer.getAdress().getState() + "\n");
+            writer.write("City: " + customer.getAdress().getCity() + "\n");
+            writer.write("ZipCode: " + customer.getAdress().getZipCode() + "\n");
             writer.write("Monthly income: " + customer.getMonthlyIncome() + "\n");
         }
         catch (IOException e) {
@@ -40,9 +40,25 @@ public class CustomerRepository
         }
     }
 
+    public static void showCustomer(String cpf)
+    {
+        String fileName = cpf.replaceAll("[.-]", "") + ".txt";
+        File file = new File("data/customers/" + fileName);
+
+        String line;
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))){
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        }
+        catch (IOException e) {
+            throw new RuntimeException("Error: customer data could not be displayed." + e.getMessage(), e);
+        }
+    }
+
     public static boolean existsByCpf(String cpf)
     {
-        File folder  = new File("data/customers");
+        File folder = new File("data/customers");
         File[] files = folder.listFiles();
 
         if (files == null) return false;
@@ -57,14 +73,14 @@ public class CustomerRepository
 
     public static Customer loadCustomer(String cpfStr)
     {
-        String name          = null;
-        String cpf           = cpfStr;
-        LocalDate birthDate  = null;
-        String email         = null;
-        String phoneNumber   = null;
-        String state         = null;
-        String city          = null;
-        String zipCode       = null;
+        String name = null;
+        String cpf = cpfStr;
+        LocalDate birthDate = null;
+        String email = null;
+        String phoneNumber = null;
+        String state = null;
+        String city = null;
+        String zipCode = null;
         double monthlyIncome = 0;
         List<AccountType> accountTypes = new ArrayList<>();
 
@@ -107,7 +123,7 @@ public class CustomerRepository
                         break;
                     case "Account number":
                         String[] partsNumber = value.split(", ", 2);
-                        String textType =  partsNumber[1];
+                        String textType = partsNumber[1];
                         String[] partsType = textType.split(": ", 2);
                         AccountType accountType = AccountType.valueOf(partsType[1]);
                         accountTypes.add(accountType);

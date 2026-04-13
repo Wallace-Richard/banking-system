@@ -15,7 +15,7 @@ public class CustomerService
     {
         List<String> questions = FormReader.readCustomerQuestions();
         String name =            InputReader.name(questions.get(0));
-        String cpf =             InputReader.CustomerCpf(questions.get(1));
+        String cpf =             InputReader.customerCpf(questions.get(1));
         LocalDate birthDate =    InputReader.birthDate(questions.get(2));
         String email =           InputReader.email(questions.get(3));
         String phoneNumber =     InputReader.phoneNumber(questions.get(4));
