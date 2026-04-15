@@ -40,7 +40,7 @@ public class CustomerRepository
         }
     }
 
-    public static void showCustomer(String cpf)
+    public static void showDetailedCustomer(String cpf)
     {
         String fileName = cpf.replaceAll("[.-]", "") + ".txt";
         File file = new File("data/customers/" + fileName);
@@ -53,6 +53,48 @@ public class CustomerRepository
         }
         catch (IOException e) {
             throw new RuntimeException("Error: customer data could not be displayed." + e.getMessage(), e);
+        }
+    }
+
+    private static List<String> searchAllCpfs ()
+    {
+        File folder = new File("data/customers");
+        File[] files = folder.listFiles();
+
+        assert files != null;
+
+        List<String> cpfs = new ArrayList<>();
+        String line;
+
+        for (File file : files) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))){
+                for (int i = 0; i < 2; i++) {
+                    line = reader.readLine();
+
+                    String[] parts = line.split(": ", 2);
+                    String text = parts[0];
+                    String value = parts[1];
+
+                    if (text.equals("CPF")){
+                        cpfs.add(value);
+                    }
+                }
+            }
+            catch (IOException e) {
+                throw new RuntimeException("Error: customer data could not be loaded." + e.getMessage(), e);
+            }
+        }
+        return cpfs;
+    }
+
+    public static void showAllCustomers()
+    {
+        List <String> cpfs = searchAllCpfs();
+
+        for (String cpf : cpfs) {
+            Customer customer = loadCustomer(cpf);
+
+            System.out.println("| " + customer.getName() + " | " + customer.getCpf() + " |");
         }
     }
 
