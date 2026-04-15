@@ -13,8 +13,7 @@ public class TransactionService
 {
     public static void deposit(Account account, double amount)
     {
-        double newBalance = account.getBalance() + amount;
-        account.setBalance(newBalance);
+        account.deposit(amount);
 
         LocalDateTime timestamp = LocalDateTime.now();
         TransactionType type = TransactionType.DEPOSIT;
@@ -29,7 +28,6 @@ public class TransactionService
     {
         double dailyLimit = TransactionRepository.checkLimitWithdrawal(account);
         double withdrawal;
-        double newBalance;
         withdrawal = amount + account.getAccountType().getTaxWithdrawal();
         if ((dailyLimit - withdrawal) >= -1000) {
             System.out.println("Error: Daily limit to withdrawal is " + (dailyLimit + 1000));
@@ -40,9 +38,7 @@ public class TransactionService
             return;
         }
 
-        newBalance = account.getBalance() - withdrawal;
-
-        account.setBalance(newBalance);
+        account.deposit(amount);
         LocalDateTime timestamp = LocalDateTime.now();
         TransactionType type = TransactionType.WITHDRAWAL;
 
@@ -54,9 +50,9 @@ public class TransactionService
 
     public static void transfer(Account accountIn, Account accountOut, double amount)
     {
-        accountOut.setBalance(accountOut.getBalance() - amount);
+        accountOut.withdrawal(amount);
 
-        accountIn.setBalance(accountIn.getBalance() + amount);
+        accountIn.deposit(amount);
 
         if (accountOut.getBalance() < amount) {
             System.out.println("\nError: amount transfer cannot exceed the account balance, try again!\n");
