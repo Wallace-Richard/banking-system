@@ -17,11 +17,23 @@ public class Account
     public Account(String numberAccount, Customer customer, AccountType accountType, double balance, LocalDateTime dateCreated, boolean active)
     {
         this.numberAccount = numberAccount;
-        this.customer = customer;
-        this.accountType = accountType;
-        this.balance = balance;
-        this.dateCreated = dateCreated;
-        this.Active = active;
+        this.customer      = customer;
+        this.accountType   = accountType;
+        this.balance       = balance;
+        this.dateCreated   = dateCreated;
+        this.Active        = active;
+    }
+
+    public void deposit (double amount)
+    {
+        double newBalance = this.balance + amount;
+        this.balance = newBalance;
+    }
+
+    public void withdrawal (double amount )
+    {
+        double newBalance = this.balance - amount;
+        this.balance = newBalance;
     }
 
     public Customer getCustomer()
@@ -54,10 +66,6 @@ public class Account
         return Active;
     }
 
-    public void setBalance(double balance)
-    {
-        this.balance = balance;
-    }
 
     @Override
     public String toString()
